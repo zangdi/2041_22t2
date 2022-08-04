@@ -1,0 +1,42 @@
+#!/bin/sh
+
+if [ $# -ne 1 ]
+then
+    echo "Usage: $0 dir"
+    exit 1
+fi
+
+if [ ! -d $1 ]
+then
+    echo "$1 is not a directory"
+    echo "Usage: $0 dir"
+    exit 1
+fi
+
+echo -n "Delete $1? "
+read answer
+
+if [ $answer != "yes" ]
+then
+    echo "exiting"
+    exit 0
+fi
+
+cd $1
+pwd
+
+for file in .* *
+do
+    if [ -f "$file" ]
+    then
+        rm "$file"
+    fi
+done
+
+for dir in .* *
+do
+    if [ -d "$dir" -a "$dir" != "." -a "$dir" != ".." ]
+    then
+        rmall "$dir"
+    fi
+done
